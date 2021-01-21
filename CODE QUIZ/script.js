@@ -50,7 +50,6 @@ var questions = [
     }
 ];
 
-
 //This is the timer that will reset the timer every time a quiz starts
 function setupTimer() {
     timeCount = setInterval(function () {
@@ -64,7 +63,7 @@ function setupTimer() {
     }, 1000)
 }
 
-var i = 0;
+var questionIndex = 0;
 
 // Sets up the timer and displays the quiz
 function startQuiz() {
@@ -73,60 +72,73 @@ function startQuiz() {
     displayQuestion();
 }
 
-function onclickHandler(event) {
+// Handle when the user clicks a choice on a 
+// question.
+function handleButtonChoiceClick(event) {
 
-    if(timer<=0){
+    // check the timer, if the count is zero,
+    // then the game is SOOO over.
+    if(timer <= 0){
         clearInterval(timeCount);
         divContEL.style.display="none";
         displayResult();
     }
-    var answerText = event.target.textContent 
-    if (answerText === questions[i].answer) {
-        timer = timer;
+
+    // the target of this event will be a button
+    // from the choices we displayed to the user.
+    // get the answer text.
+    var chosenButton = event.target;
+    var answerText = chosenButton.textContent;
+
+    // compare the answer text from the button the
+    // the user clicked to the answer in the question.
+    if (answerText === questions[questionIndex].answer) {
         responsDiv.setAttribute("style", "color: green")
         responsDiv.textContent = "Correct";
-    } else {
-
+    } 
+    else { 
+        // for an incorrect answer, we subtract 15
+        // seconds from the timer, in addition to 
+        // telling them they did chose unwisely.
         responsDiv.setAttribute("style", "color: red")
         responsDiv.textContent = "Wrong";
+        timer = timer - 15;
         function myPlay(){
             var audio = new Audio("sadtrambone.mp3");
             audio.play();
-        }
+        };
         myPlay();
-        timer = timer - 15;
      }
     
-      
-     
-    if (i < questions.length-1) {
+    // check to see if there's another question,
+    // then display it.
+    if (questionIndex < questions.length-1) {
+        questionIndex++;
 
-      i++;
+        // awkward pause for displaying the next question
+        setTimeout(function () {
+            responsDiv.textContent = "";
+            displayQuestion();
+        }, 1000);
 
-      setTimeout(function () {
-      displayQuestion();
-      responsDiv.textContent = "";
-    }, 1000)
-    }else {
+    }else { 
+        // there are no more questions; time to end
+        // the game.
         setTimeout(function () {
             responsDiv.textContent = "";
             displayResult();
             clearInterval(timeCount);
-          
-        }, 500)
+        }, 1000);
     
-
-        divContEL.innerHTML = '';
+        // divContEL.innerHTML = '';
      }
-     
-    /**Function to display users final score */
-    function displayResult() {
-        finishDiv.style.visibility = "visible";
-        clockElement.textContent = "Time:" + " " + timer;
-        HighScores = timer;
-       
- 
-    }
+}
+
+// Display the user's final score
+function displayResult() {
+    finishDiv.style.visibility = "visible";
+    clockElement.textContent = "Time:" + " " + timer;
+    HighScores = timer;
 }
 
 //** This event listner submit the initial and final score to the local storage */
@@ -225,7 +237,7 @@ function displayQuestion() {
     oderListEl.innerHTML = '';
 
     // get the current question (as given by i)
-    var currentQuestion = questions[i];
+    var currentQuestion = questions[questionIndex];
     hElement.textContent = currentQuestion.question;
 
     // create the choices for the user. each choice is
@@ -240,7 +252,7 @@ function displayQuestion() {
         var btn = document.createElement('button');
         btn.setAttribute('class', 'all_btn');
         btn.textContent = choice;
-        btn.addEventListener("click", onclickHandler);
+        btn.addEventListener("click", handleButtonChoiceClick);
 
         liTag.appendChild(btn);
         oderListEl.appendChild(liTag);
