@@ -141,41 +141,13 @@ function displayResult() {
     divContEL.style.display = "none";
     // show the 'game finished pane'
     finishDiv.style.visibility = "visible";
-
-    clockElement.textContent = "Time:" + " " + timer;
     HighScores = timer;
 }
 
 //** This event listner submit the initial and final score to the local storage */
 document.addEventListener("submit", function (event) {
     event.preventDefault();
-    // var initialInput = document.querySelector("#inputInitial").value;
-    // if (initialInput === "") {
-    //     errMsg.setAttribute("style", "color: red")
-    //     errMsg.textContent = "Initial input field cannot be empty"
-    // } else {
-    //     errMsg.textContent = "";
-       
-    // }
-        // var yourHighScores = {
-        //     yourInitial: initialInput,
-        //     Score: HighScores
-        //   };
-          
-        //   localStorage.setItem("yourHighScores", JSON.stringify(yourHighScores));
-        //   finishDiv.textContent = "";
-        //     var finaPageEl = document.querySelector(".final-page");
-        //     finaPageEl.style.visibility = "visible";
-        //     var initialScore = JSON.parse(localStorage.getItem("yourHighScores"));
-        //     if (initialScore !== null) {
-        //         initialAndScore = document.querySelector("#staticEmail");
-        //       initialAndScore.value = initialScore.yourInitial + ":" + " " + initialScore.Score;
-        //     }
-        //     console.log(initialScore);
-        //     console.log(yourHighScores);
-       
-        renderHighScores(event);
-
+    renderHighScores(event);
 });
 
 
@@ -187,7 +159,8 @@ function renderHighScores(event){
     if (initialInput === "") {
         errMsg.setAttribute("style", "color: red")
         errMsg.textContent = "Initial input field cannot be empty"
-    } else {
+    } 
+    else {
         errMsg.textContent = "";
        
     }
@@ -196,30 +169,15 @@ function renderHighScores(event){
             Score: HighScores
           };
           
-          localStorage.setItem("yourHighScores", JSON.stringify(yourHighScores));
-          finishDiv.textContent = "";
-            var finaPageEl = document.querySelector(".final-page");
-            finaPageEl.style.visibility = "visible";
-            var initialScore = JSON.parse(localStorage.getItem("yourHighScores"));
-            if (initialScore !== null) {
-                initialAndScore = document.querySelector("#staticEmail");
-              initialAndScore.value = initialScore.yourInitial + ":" + " " + initialScore.Score;
-            }
-            
-
-            // viewHighScores.addEventListener("click", function(event){
-            //     // event.preventDefault();
-            // //     // divContEL.style.display= "none";
-            // //     // wrapperElement.style.display = "none"; 
-            // //     // renderHighScores();
-            // //     // divContEL.value = initialAndScore.value;
-            // //     // alert(initialAndScore.value);
-            // //     // alert("Your initials are: " + initialScore + " your score is: " + yourHighScores);
-            // //     // alert(yourHighScores.yourInitial);
-            // //     // alert(yourHighScores.Score);
-            //     alert("Your total score is: " + yourHighScores.Score + "your initials are: " + yourHighScores.yourInitial);            
-            // });
-
+    localStorage.setItem("yourHighScores", JSON.stringify(yourHighScores));
+    finishDiv.textContent = "";
+    var finaPageEl = document.querySelector(".final-page");
+    finaPageEl.style.visibility = "visible";
+    var initialScore = JSON.parse(localStorage.getItem("yourHighScores"));
+    if (initialScore !== null) {
+        initialAndScore = document.querySelector("#staticEmail");
+        initialAndScore.value = initialScore.yourInitial + ":" + " " + initialScore.Score;
+    }
 }
 /**This function will refresh the page and send user back to begining page when go back button is clicked */
 function init() {
