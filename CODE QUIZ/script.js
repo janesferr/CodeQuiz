@@ -134,9 +134,14 @@ function handleButtonChoiceClick(event) {
      }
 }
 
-// Display the user's final score
+// Display the user's final score and allow them
+// to enter their initials for high score.
 function displayResult() {
+    // hide the question pane
+    divContEL.style.display = "none";
+    // show the 'game finished pane'
     finishDiv.style.visibility = "visible";
+
     clockElement.textContent = "Time:" + " " + timer;
     HighScores = timer;
 }
