@@ -36,7 +36,7 @@ body {
 #response,
 form,
 input,
-#staticEmail2 {
+#staticEmail2, h2, .myBtn {
   margin: 0 auto;
   text-align: center;
   width: 300px;
