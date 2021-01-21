@@ -55,7 +55,7 @@ function setupTimer() {
     timeCount = setInterval(function () {
         timer--;
         var timeReset = clockElement.textContent = "Time:" + " " + timer;
-       timer = timer;
+     
         if( timer <=0){
             clearInterval(timeCount);
             clockElement.textContent = timeReset;
@@ -227,10 +227,7 @@ function scores(){
         divContEL.style.display= "none";
         wrapperElement.style.display = "none"; 
         finaPageEl.style.visibility = "visible";
-    // //     // renderHighScores();
-    // //     // divContEL.value = initialAndScore.value;
-    // //     // alert(initialAndScore.value);
-    // //     // alert("Your initials are: " + initialScore + " your score is: " + yourHighScores);
+   
     var techStack = localStorage.getItem("yourHighScores");
 
      if (techStack !== null) {
