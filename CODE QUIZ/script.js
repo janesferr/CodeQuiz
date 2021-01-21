@@ -20,6 +20,35 @@ var initialAndScore = document.querySelector("#staticEmail");
 var firstPageEl = document.querySelector(".first-page");
 var viewHighScores = document.querySelector("#hscore");
 
+// Create an  array of questions, choices, and answers
+var questions = [
+    {
+        question: "Commonly used data types DO NOT include:",
+        choices: ["strings", "booleans", "alerts", "numbers"],
+        answer: "alerts",
+    },
+    {
+        question: "The condition in an if / else statement is enclosed within ____.",
+        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+        answer: "parentheses",
+    },
+    {
+        question: "There are 3 different ways in which a JavaScript code can be involved in an HTML file. Selct the one that's not correct.",
+        choices: ["Inline", "Import", "External", "Internal"],
+        answer: "Import",
+    },
+    {
+        question: "How to create an array in js ?",
+        choices: ["var A[]=", "var A{}=", "var A=[]", "var A={}"],
+        answer: "var A=[]",
+    },
+    {   
+        question: "HTML element that can be accessed in a Javascript code: Chose the one that will return an array of elements",
+        choices: ["getElementById(‘idname’)", "getElementsByClass(‘classname’)", 
+        "getElementsByTagName(‘tagname’)", "querySelectorAll()"],
+        answer: "querySelectorAll()",
+    }
+];
 
 
 //This is the timer that will reset the timer every time a quiz starts
@@ -30,22 +59,19 @@ function setupTimer() {
        timer = timer;
         if( timer <=0){
             clearInterval(timeCount);
-
             clockElement.textContent = timeReset;
         }
     }, 1000)
 }
 
-document.addEventListener("click", function(event) {
-    if(event.target === strtElement){
-        wrapperElement.style.display = "none";
-        setupTimer();
-        displayQuestions();
-
-    }
-})
-
 var i = 0;
+
+// Sets up the timer and displays the quiz
+function startQuiz() {
+    wrapperElement.style.display = "none";
+    setupTimer();
+    displayQuestion();
+}
 
 function onclickHandler(event) {
 
@@ -78,7 +104,7 @@ function onclickHandler(event) {
       i++;
 
       setTimeout(function () {
-      displayQuestions();
+      displayQuestion();
       responsDiv.textContent = "";
     }, 1000)
     }else {
@@ -191,105 +217,35 @@ function clearScore() {
 
 
 
+ // Display the next question
+function displayQuestion() {
 
-// Create an  array of questions, choices, and answers
-var questions = [
-    {
-        question: "Commonly used data types DO NOT include:",
-        choices: ["strings", "booleans", "alerts", "numbers"],
-        answer: "alerts",
-    },
-    {
-        question: "The condition in an if / else statement is enclosed within ____.",
-        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-        answer: "parentheses",
-    },
-    {
-        question: "There are 3 different ways in which a JavaScript code can be involved in an HTML file. Selct the one that's not correct.",
-        choices: ["Inline", "Import", "External", "Internal"],
-        answer: "Import",
-    },
-    {
-        question: "How to create an array in js ?",
-        choices: ["var A[]=", "var A{}=", "var A=[]", "var A={}"],
-        answer: "var A=[]",
-    },
-    {   
-        question: "HTML element that can be accessed in a Javascript code: Chose the one that will return an array of elements",
-        choices: ["getElementById(‘idname’)", "getElementsByClass(‘classname’)", 
-        "getElementsByTagName(‘tagname’)", "querySelectorAll()"],
-        answer: "querySelectorAll()",
-    }
-]
-
-
- /**Create next questions to be added to the HTML document dynamically*/
-function displayQuestions() {
-    var holdQ1question = questions[i].question
-    hElement.textContent = holdQ1question
-
-
-    var holdq1Choice1 = questions[i].choices[0];
-    var holdq1Choice2 = questions[i].choices[1];
-    var holdq1Choice3 = questions[i].choices[2];
-    var holdq1Choice4 = questions[i].choices[3];
-
-
+    // clean up - remove the previous question text 
+    // and it's choices
     oderListEl.innerHTML = '';
 
-    var liTag1 = document.createElement("li");
-    liTag1.setAttribute("class", "all_li")
-    var btn = document.createElement('button');
-    btn.setAttribute("class", "all_btn")
-    btn.textContent = holdq1Choice1;
-    liTag1.appendChild(btn)
-    oderListEl.appendChild(liTag1);
-    divContEL.appendChild(oderListEl);
+    // get the current question (as given by i)
+    var currentQuestion = questions[i];
+    hElement.textContent = currentQuestion.question;
 
-    var liTag2 = document.createElement("li");
-    liTag2.setAttribute("class", "all_li");
-    var btn2 = document.createElement('button');
-    btn2.setAttribute("class", "all_btn")
-    btn2.textContent = holdq1Choice2;
-    liTag2.appendChild(btn2)
-    oderListEl.appendChild(liTag2)
-    divContEL.appendChild(oderListEl);
+    // create the choices for the user. each choice is
+    // a button with a handler wrapped in a list element
+    // <li class="all_li">
+    //    <button class="all_btn" click="onclickHandler()">choice text</button>
+    // </li>
+    currentQuestion.choices.forEach((choice) => {
+        var liTag = document.createElement("li");
+        liTag.setAttribute("class", "all_li");
 
-    var liTag3 = document.createElement("li");
-    liTag3.setAttribute("class", "all_li")
-    var btn3 = document.createElement('button');
-    btn3.setAttribute("class", "all_btn")
-    btn3.textContent = holdq1Choice3;
-    liTag3.appendChild(btn3)
-    oderListEl.appendChild(liTag3)
-    divContEL.appendChild(oderListEl);
+        var btn = document.createElement('button');
+        btn.setAttribute('class', 'all_btn');
+        btn.textContent = choice;
+        btn.addEventListener("click", onclickHandler);
 
-    var liTag4 = document.createElement("li");
-    liTag4.setAttribute("class", "all_li")
-    var btn4 = document.createElement('button');
-    btn4.setAttribute("class", "all_btn");
-    btn4.textContent = holdq1Choice4;
-    liTag4.appendChild(btn4);
-    oderListEl.appendChild(liTag4);
-    divContEL.appendChild(oderListEl);
-    var allBtnEl = document.querySelectorAll(".all_btn")
-    allBtnEl.forEach(function (event) {
-        event.addEventListener("click", onclickHandler)
+        liTag.appendChild(btn);
+        oderListEl.appendChild(liTag);
     });
-
 }
-// viewHighScores.addEventListener("click", function(event){
-//     event.preventDefault();
-// //     // divContEL.style.display= "none";
-// //     // wrapperElement.style.display = "none"; 
-// //     // renderHighScores();
-// //     // divContEL.value = initialAndScore.value;
-// //     // alert(initialAndScore.value);
-// //     // alert("Your initials are: " + initialScore + " your score is: " + yourHighScores);
-//     alert(yourHighScores.yourInitial);
-//     alert(yourHighScores.Score);
-
-// });
 
 function scores(){
     
