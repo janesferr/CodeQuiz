@@ -33,7 +33,7 @@ body {
 }
 .divContainer,
 .q-list,
-.response,
+#response,
 form,
 input,
 #staticEmail2 {
