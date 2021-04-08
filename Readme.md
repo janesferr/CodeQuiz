@@ -7,3 +7,4 @@ This website is created with Javascript using a Local Storage tools and API. It 
 Here is the deployed link through github: https://janesferr.github.io/CodeQuiz/
 
 
+Copyright 2021 © Jane Sferrazza
